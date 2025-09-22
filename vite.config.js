@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     host: "0.0.0.0", // LAN内からアクセス可能にする
     port: 3000,       // 好きなポート番号
-    allowedHosts: ["1547cb9643f4.ngrok-free.app"],
+    allowedHosts: ["ar-front-iepx.onrender.com"],
   },
   plugins: [react(), svgr()],
 })
