@@ -11,26 +11,49 @@ export default function ViewAR() {
   // 基準座標（5号館）
   const baseLat = 35.6367611;
   const baseLng = 140.2029053;
-  const latStep = 0.000018; // 約2m
-  const lngStep = 0.000022; // 約2m
+  const latStep = 0.000045; // 約5m
+  const lngStep = 0.000055; // 約5m
 
-  // 5×5の格子状に手紙を生成
-  const letters = [];
-  let idCounter = 1;
-  for (let i = 0; i < 5; i++) {
-    for (let j = 0; j < 5; j++) {
-      letters.push({
-        id: idCounter,
-        title: `テスト手紙 ${idCounter}`,
-        lat: baseLat + (i - 2) * latStep, // 中心から上下に配置
-        lng: baseLng + (j - 2) * lngStep, // 中心から左右に配置
-      });
-      idCounter++;
-    }
-  }
+
+  // 手紙を1つずつ個別に定義
+  const letter1 = {
+    id: 1,
+    title: "テスト手紙 1",
+    lat: baseLat - 2 * latStep,
+    lng: baseLng - 2 * lngStep,
+  };
+
+  const letter2 = {
+    id: 2,
+    title: "テスト手紙 2",
+    lat: baseLat - 2 * latStep,
+    lng: baseLng - 1 * lngStep,
+  };
+
+  const letter3 = {
+    id: 3,
+    title: "テスト手紙 3",
+    lat: baseLat - 2 * latStep,
+    lng: baseLng,
+  };
+
+  const letter4 = {
+    id: 4,
+    title: "テスト手紙 4",
+    lat: baseLat - 2 * latStep,
+    lng: baseLng + 1 * lngStep,
+  };
+
+  const letter5 = {
+    id: 5,
+    title: "テスト手紙 5",
+    lat: baseLat - 2 * latStep,
+    lng: baseLng + 2 * lngStep,
+  };
+
+  const letters = [letter1, letter2, letter3, letter4, letter5]; // 今は1行目だけテスト
 
   useEffect(() => {
-    // 全ての手紙にクリックイベントを付与
     letters.forEach((letter) => {
       const entity = document.getElementById(`letter-${letter.id}`);
       if (entity) {
@@ -83,4 +106,5 @@ export default function ViewAR() {
     </div>
   );
 }
+
 
