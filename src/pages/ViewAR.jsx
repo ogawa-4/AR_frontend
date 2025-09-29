@@ -9,7 +9,7 @@ export default function ViewAR() {
   const [selectedLetter, setSelectedLetter] = useState(null);
 
   // 基準座標（5号館）
-  const baseLat = 35.6367611;
+  const baseLat = 36.6367611;
   const baseLng = 140.2029053;
   const latStep = 0.000045; // 約5m
   const lngStep = 0.000055; // 約5m
