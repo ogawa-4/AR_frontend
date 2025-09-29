@@ -1,18 +1,18 @@
-import React, { useEffect, useState} from 'react';
-import { MapContainer, TileLayer, Marker, Popup, } from 'react-leaflet';
+import React, { useEffect, useState } from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import './View.css';
 
 export default function View() {
     const navigate = useNavigate();
-    const center = [35.629312, 140.189696]; //中心座標　情報大
+    const center = [35.6367611, 140.2029053]; // 基準座標（5号館）
     const [currentPosition, setCurrentPosition] = useState(null);
-    const [letters, setLetters] = useState([]); //仮の手紙の位置を入れる
-    const [nearbyLetters, setNearbyLetters] = useState([]); //近くの手紙の位置を入れる
+    const [letters, setLetters] = useState([]);
+    const [nearbyLetters, setNearbyLetters] = useState([]);
 
     function getDistance(lat1, lon1, lat2, lon2) {
-        const R = 6371e3; // 地球の半径（メートル）
+        const R = 6371e3;
         const toRad = (x) => (x * Math.PI) / 180;
 
         const dLat = toRad(lat2 - lat1);
@@ -27,36 +27,51 @@ export default function View() {
         return R * c;
     }
 
-
-    // 位置情報の取得
     useEffect(() => {
-            // ダミーの手紙データ（緯度・経度付き）
-        const dummyLetters = [
-        { id: 1, latitude: 35.6295, longitude: 140.1900, content: '手紙その1' },
-        { id: 2, latitude: 35.6280, longitude: 140.1885, content: '手紙その2' },
-        { id: 3, latitude: 35.6275, longitude: 140.1920, content: 'ちょっと遠い手紙' },
-        ];
-        setLetters(dummyLetters);
+        // === 5×5 の格子状にダミー手紙を作成 ===
+        const baseLat = 35.6367611;
+        const baseLng = 140.2029053;
+        const latStep = 0.000018; // 約2m
+        const lngStep = 0.000022; // 約2m
 
+        const gridLetters = [];
+        let idCounter = 1;
+        for (let i = 0; i < 5; i++) {
+            for (let j = 0; j < 5; j++) {
+                gridLetters.push({
+                    id: idCounter,
+                    latitude: baseLat + (i - 2) * latStep,
+                    longitude: baseLng + (j - 2) * lngStep,
+                    content: `テスト手紙 ${idCounter}`,
+                });
+                idCounter++;
+            }
+        }
+        setLetters(gridLetters);
+
+        // === 現在位置を取得 ===
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const { latitude, longitude } = position.coords;
                 const current = [latitude, longitude];
                 setCurrentPosition(current);
 
-                const nearby = dummyLetters.filter((letter) => {
+                // 一旦 1km 以内なら全部表示（テスト用）
+                const nearby = gridLetters.filter((letter) => {
                     const distance = getDistance(
-                            latitude,
-                            longitude,
-                            letter.latitude,
-                            letter.longitude
-                        );
-                        return distance <= 100000; // 100メートル以内の手紙をフィルタリング
+                        latitude,
+                        longitude,
+                        letter.latitude,
+                        letter.longitude
+                    );
+                    return distance <= 1000;
                 });
                 setNearbyLetters(nearby);
             },
             (error) => {
                 console.error('位置情報の取得に失敗しました:', error);
+                // 位置情報が取れない場合は全部表示
+                setNearbyLetters(gridLetters);
             }
         );
     }, []);
@@ -64,34 +79,35 @@ export default function View() {
     return (
         <div className="view-container">
             <h1>手紙閲覧ページ</h1>
-            <MapContainer center={center} zoom={13} className="h-full w-full">
+            <MapContainer center={center} zoom={18} className="h-full w-full">
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
 
-                {/* 現在位置のマーカー */}
+                {/* 現在位置 */}
                 {currentPosition && (
                     <Marker position={currentPosition}>
-                        <Popup>
-                            あなたの現在位置
-                        </Popup>
+                        <Popup>あなたの現在位置</Popup>
                     </Marker>
                 )}
 
-                {/* 近くの手紙のマーカー */}
-                {nearbyLetters.map((letter, index) => (
-                    <Marker key={index} position={[letter.latitude, letter.longitude]}>
+                {/* 手紙のマーカー */}
+                {nearbyLetters.map((letter) => (
+                    <Marker key={letter.id} position={[letter.latitude, letter.longitude]}>
                         <Popup>
-                            <strong>手紙</strong><br />
-                            {letter.content}
+                            <strong>{letter.content}</strong><br />
+                            緯度: {letter.latitude.toFixed(6)}<br />
+                            経度: {letter.longitude.toFixed(6)}
                         </Popup>
-                    </Marker>   
+                    </Marker>
                 ))}
             </MapContainer>
 
             <div className="button-group">
-                <button className="button" onClick={() => navigate('/')}>ホームに戻る</button>
+                <button className="button" onClick={() => navigate('/')}>
+                    ホームに戻る
+                </button>
             </div>
         </div>
     );
