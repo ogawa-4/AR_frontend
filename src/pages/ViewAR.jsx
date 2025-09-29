@@ -7,6 +7,16 @@ export default function ViewAR() {
   const sceneRef = useRef();
   const [showModal, setShowModal] = useState(false);
 
+  // 仮データ：手紙を置く座標
+  const letters = [
+    {
+      id: 1,
+      title: "テスト手紙",
+      lat: 35.6895, // 新宿駅あたり
+      lng: 139.6917,
+    },
+  ];
+
   useEffect(() => {
     const letter = document.getElementById("letter-model");
     if (letter) {
@@ -18,18 +28,25 @@ export default function ViewAR() {
 
   return (
     <div>
-      <a-scene ref={sceneRef} vr-mode-ui="enabled: false" embedded>
-        <a-camera gps-camera rotation-reader>{/* 位置・向きの取得コンポーネント */}
-          <a-cursor></a-cursor>{/* 視線で手紙をタッチするカーソル作成 */}
+      <a-scene
+        ref={sceneRef}
+        vr-mode-ui="enabled: false"
+        embedded
+        arjs="sourceType: webcam; debugUIEnabled: false;"
+      >
+        <a-camera gps-camera rotation-reader>
+          <a-cursor></a-cursor>
         </a-camera>
-        {/* a-cameraでgps-cameraを使用しているからカメラ位置がGPSで更新される */}
 
-        <a-entity
-          gltf-model="url(/models/letter.glb)"
-          scale="3 3 3"
-          id="letter-model"
-          position="0 1.2 -4"
-        ></a-entity>
+        {letters.map((letter) => (
+          <a-entity
+            key={letter.id}
+            id="letter-model"
+            gltf-model="url(/models/letter.glb)"
+            scale="3 3 3"
+            gps-entity-place={`latitude: ${letter.lat}; longitude: ${letter.lng};`}
+          ></a-entity>
+        ))}
       </a-scene>
 
       {showModal && (
@@ -37,9 +54,8 @@ export default function ViewAR() {
           <div className="modal-content">
             <h2>手紙</h2>
             <p>
-              ここに手紙の内容が表示されます。<br />
-              日本語もOK、長文もOKです。<br />
-              Eigono tesuto<br />
+              {letters[0].title}<br />
+              ここに手紙の内容が表示されます。
             </p>
             <button onClick={() => setShowModal(false)}>閉じる</button>
           </div>
@@ -52,3 +68,4 @@ export default function ViewAR() {
     </div>
   );
 }
+
