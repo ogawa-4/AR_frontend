@@ -15,7 +15,7 @@ const latStep = 0.000045; // 約5m
 const lngStep = 0.000055; // 約5m
 
 
-  // 手紙を1つずつ個別に定義
+  // 手紙定義
   const letter1 = {
     id: 1,
     title: "テスト手紙 1",
@@ -51,8 +51,8 @@ const lngStep = 0.000055; // 約5m
     lng: baseLng + 2 * lngStep,
   };
 
-  const letters = [letter1, letter2, letter3, letter4, letter5]; // 今は1行目だけテスト
-
+  const letters = [letter1, letter2, letter3, letter4, letter5]; // テスト
+//クリックイベント登録
   useEffect(() => {
     letters.forEach((letter) => {
       const entity = document.getElementById(`letter-${letter.id}`);
@@ -64,7 +64,7 @@ const lngStep = 0.000055; // 約5m
       }
     });
   }, [letters]);
-
+//AR設定&モーダル設定
   return (
     <div>
       <a-scene
@@ -87,7 +87,7 @@ const lngStep = 0.000055; // 約5m
           ></a-entity>
         ))}
       </a-scene>
-
+      
       {showModal && selectedLetter && (
         <div className="modal-overlay">
           <div className="modal-content">
