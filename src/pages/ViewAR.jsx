@@ -5,55 +5,26 @@ import "./ViewAR.css";
 export default function ViewAR() {
   const navigate = useNavigate();
   const sceneRef = useRef();
+  const [letters, setLetters] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedLetter, setSelectedLetter] = useState(null);
 
-  // 基準座標（5号館）
-  const baseLat = 35.6367611;
-  const baseLng = 140.2029053;
-const latStep = 0.000045; // 約5m
-const lngStep = 0.000055; // 約5m
-
-
-  // 手紙定義
-  const letter1 = {
-    id: 1,
-    title: "テスト手紙 1",
-    lat: baseLat - 2 * latStep,
-    lng: baseLng - 2 * lngStep,
-  };
-
-  const letter2 = {
-    id: 2,
-    title: "テスト手紙 2",
-    lat: baseLat - 2 * latStep,
-    lng: baseLng - 1 * lngStep,
-  };
-
-  const letter3 = {
-    id: 3,
-    title: "テスト手紙 3",
-    lat: baseLat - 2 * latStep,
-    lng: baseLng,
-  };
-
-  const letter4 = {
-    id: 4,
-    title: "テスト手紙 4",
-    lat: baseLat - 2 * latStep,
-    lng: baseLng + 1 * lngStep,
-  };
-
-  const letter5 = {
-    id: 5,
-    title: "テスト手紙 5",
-    lat: baseLat - 2 * latStep,
-    lng: baseLng + 2 * lngStep,
-  };
-
-  const letters = [letter1, letter2, letter3, letter4, letter5]; // テスト
-//クリックイベント登録
   useEffect(() => {
+    // --- 🔹 APIから手紙を取得 ---
+    fetch("https://ar-backend-yt6b.onrender.com/letters")
+      .then((res) => {
+        if (!res.ok) throw new Error("API接続に失敗しました");
+        return res.json();
+      })
+      .then((data) => {
+        console.log("取得した手紙データ:", data);
+        setLetters(data);
+      })
+      .catch((err) => console.error("エラー:", err));
+  }, []);
+
+  useEffect(() => {
+    // --- 🔹 クリックイベントを各手紙に追加 ---
     letters.forEach((letter) => {
       const entity = document.getElementById(`letter-${letter.id}`);
       if (entity) {
@@ -64,7 +35,7 @@ const lngStep = 0.000055; // 約5m
       }
     });
   }, [letters]);
-//AR設定&モーダル設定
+
   return (
     <div>
       <a-scene
@@ -77,24 +48,24 @@ const lngStep = 0.000055; // 約5m
           <a-cursor></a-cursor>
         </a-camera>
 
+        {/* --- 🔹 DBから取得した手紙をARに表示 --- */}
         {letters.map((letter) => (
           <a-entity
             key={letter.id}
             id={`letter-${letter.id}`}
             gltf-model="url(/models/letter.glb)"
             scale="3 3 3"
-            gps-entity-place={`latitude: ${letter.lat}; longitude: ${letter.lng};`}
+            gps-entity-place={`latitude: ${letter.latitude}; longitude: ${letter.longitude};`}
           ></a-entity>
         ))}
       </a-scene>
-      
+
+      {/* --- モーダル --- */}
       {showModal && selectedLetter && (
         <div className="modal-overlay">
           <div className="modal-content">
             <h2>{selectedLetter.title}</h2>
-            <p>
-              この手紙は {selectedLetter.lat.toFixed(6)}, {selectedLetter.lng.toFixed(6)} にあります。
-            </p>
+            <p>{selectedLetter.content}</p>
             <button onClick={() => setShowModal(false)}>閉じる</button>
           </div>
         </div>
