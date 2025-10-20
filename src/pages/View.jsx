@@ -67,8 +67,8 @@ export default function View() {
       {selectedLetter && (
         <div className="modal-overlay" onClick={() => setSelectedLetter(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <h2>手紙を発見！</h2>
-            <p>ここに手紙があります。<br />内容: {selectedLetter.content}</p>
+            <h2>手紙を発見</h2>
+            <p>内容は近づいてみてね</p>
             <button onClick={() => setSelectedLetter(null)}>閉じる</button>
           </div>
         </div>
