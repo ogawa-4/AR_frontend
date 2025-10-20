@@ -1,53 +1,79 @@
-/* ARページ用のbodyスタイルを上書きして背景を透明に */
-body {
+/* ViewAR.css */
+body, html {
   margin: 0;
   padding: 0;
-  background: none !important; /* 背景を消す */
+  width: 100%;
+  height: 100%;
+  font-family: 'Arial', sans-serif;
+  overflow: hidden; /* 画面全体に表示 */
 }
 
-/* ARシーンを画面全体に広げる */
+.viewar-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* a-scene を全画面に */
 a-scene {
-  position: absolute !important;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100% !important;
-  z-index: 0;
+  width: 100%;
+  height: 100%;
 }
 
-/* ボタンは上に重ねる */
-.ar-back-button {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  border: none;
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  z-index: 10;
-}
-
+/* モーダルオーバーレイ */
 .modal-overlay {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 10;
 }
 
 .modal-content {
-  color: black;
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  max-width: 90%;
-  max-height: 80%;
-  overflow-y: auto;
+  background: rgba(255,255,255,0.95);
+  padding: 2rem;
+  border-radius: 16px;
+  max-width: 80%;
   text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+/* モーダルボタン */
+.modal-content button {
+  margin-top: 1rem;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #e3eeff, #f3e7e9);
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s all;
+}
+.modal-content button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* ホームに戻るボタン */
+.ar-back-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #f3e7e9, #e3eeff);
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 11;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.ar-back-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
 }
