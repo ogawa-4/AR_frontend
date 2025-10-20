@@ -18,10 +18,9 @@ L.Icon.Default.mergeOptions({
 
 export default function View() {
   const navigate = useNavigate();
-  const center = [35.6367611, 140.2029053]; // 初期中心
   const [currentPosition, setCurrentPosition] = useState(null);
-  const [letters, setLetters] = useState([]); 
-  const [selectedLetter, setSelectedLetter] = useState(null); // モーダル表示用
+  const [letters, setLetters] = useState([]);
+  const [selectedLetter, setSelectedLetter] = useState(null);
 
   useEffect(() => {
     // DBから手紙取得
@@ -37,6 +36,8 @@ export default function View() {
     );
   }, []);
 
+  const center = currentPosition || [35.6367611, 140.2029053];
+
   return (
     <div className="view-container">
       <MapContainer center={center} zoom={18} className="map-fullscreen">
@@ -45,17 +46,15 @@ export default function View() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {/* 現在位置 */}
         {currentPosition && (
           <Marker position={currentPosition}>
-            <Popup>あなたの現在位置</Popup>
+            <Popup>現在位置</Popup>
           </Marker>
         )}
 
-        {/* DBの手紙 */}
         {letters.map(letter => (
-          <Marker 
-            key={letter.id} 
+          <Marker
+            key={letter.id}
             position={[letter.latitude, letter.longitude]}
             eventHandlers={{
               click: () => setSelectedLetter(letter)
@@ -75,6 +74,7 @@ export default function View() {
         </div>
       )}
 
+      {/* マップ上に浮かせるボタン */}
       <button className="button-back" onClick={() => navigate('/')}>
         ホームに戻る
       </button>

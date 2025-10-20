@@ -1,48 +1,24 @@
-html, body, #root {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: "WDXL Lubrifont JP N", sans-serif;
-}
-
 .view-container {
   position: relative;
-  height: 100%;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
-.leaflet-container {
-  height: 100%;
+.map-fullscreen {
   width: 100%;
+  height: 100%;
 }
 
-.header {
+/* ボタンをマップ上に浮かせる */
+.button-back {
   position: absolute;
   top: 1rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
-  font-size: 2em;
-  font-weight: 600;
-  background: linear-gradient(45deg, #4facfe, #00f2fe);
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
-.button-group {
-  position: absolute;
-  bottom: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-
-.button {
-  padding: 0.9rem 1.5rem;
+  padding: 0.8rem 1.5rem;
   font-size: 1.1rem;
   border: none;
   border-radius: 12px;
@@ -50,11 +26,26 @@ html, body, #root {
   color: #333;
   font-weight: bold;
   box-shadow: 4px 4px 10px rgba(0,0,0,0.1), -4px -4px 10px rgba(255,255,255,0.7);
-  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-.button:hover {
-  transform: translateY(-2px);
-  box-shadow: 6px 6px 15px rgba(0,0,0,0.15), -6px -6px 15px rgba(255,255,255,0.8);
-  background: linear-gradient(145deg, #e3eeff, #f3e7e9);
+/* モーダル */
+.modal-overlay {
+  position: fixed;
+  top:0;
+  left:0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.4);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  text-align: center;
 }
