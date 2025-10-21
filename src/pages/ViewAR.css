@@ -1,26 +1,29 @@
 /* ViewAR.css */
-body, html {
+html, body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
+  overflow: visible;
+  background: #000; /* 白だと見分けづらいから一時的に黒背景 */
   font-family: 'Arial', sans-serif;
-  overflow: hidden; /* 画面全体に表示 */
 }
 
 .viewar-container {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   position: relative;
 }
 
-/* a-scene を全画面に */
 a-scene {
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
 }
 
-/* モーダルオーバーレイ */
 .modal-overlay {
   position: absolute;
   top: 0;
@@ -43,7 +46,6 @@ a-scene {
   box-shadow: 0 8px 24px rgba(0,0,0,0.2);
 }
 
-/* モーダルボタン */
 .modal-content button {
   margin-top: 1rem;
   padding: 0.8rem 1.5rem;
@@ -54,12 +56,12 @@ a-scene {
   font-weight: bold;
   transition: 0.2s all;
 }
+
 .modal-content button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-/* ホームに戻るボタン */
 .ar-back-button {
   position: absolute;
   top: 20px;
@@ -73,6 +75,7 @@ a-scene {
   z-index: 11;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
+
 .ar-back-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(0,0,0,0.3);
