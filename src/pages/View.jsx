@@ -57,7 +57,10 @@ export default function View() {
             key={letter.id}
             position={[letter.latitude, letter.longitude]}
             eventHandlers={{
-              click: () => setSelectedLetter(letter)
+              click: () =>{
+                console.log("📍 Marker clicked:", letter);
+               setSelectedLetter(letter)
+              }
             }}
           />
         ))}
