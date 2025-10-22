@@ -20,7 +20,6 @@ export default function View() {
   const navigate = useNavigate();
   const [currentPosition, setCurrentPosition] = useState(null);
   const [letters, setLetters] = useState([]);
-  const [selectedLetter, setSelectedLetter] = useState(null);
 
   useEffect(() => {
     // DBから手紙取得
@@ -46,38 +45,25 @@ export default function View() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
+        {/* 現在位置 */}
         {currentPosition && (
           <Marker position={currentPosition}>
             <Popup>現在位置</Popup>
           </Marker>
         )}
 
+        {/* 手紙ピン */}
         {letters.map(letter => (
-          <Marker
-            key={letter.id}
-            position={[letter.latitude, letter.longitude]}
-            eventHandlers={{
-              click: () =>{
-                console.log("📍 Marker clicked:", letter);
-               setSelectedLetter(letter)
-              }
-            }}
-          />
+          <Marker key={letter.id} position={[letter.latitude, letter.longitude]}>
+            <Popup>
+              <strong>手紙を発見！</strong><br />
+              {letter.content}
+            </Popup>
+          </Marker>
         ))}
       </MapContainer>
 
-      {/* モーダル */}
-      {selectedLetter && (
-        <div className="modal-overlay" onClick={() => setSelectedLetter(null)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <h2>手紙を発見</h2>
-            <p>ここに手紙があります。<br />内容: {selectedLetter.content}</p>
-            <button onClick={() => setSelectedLetter(null)}>閉じる</button>
-          </div>
-        </div>
-      )}
-
-      {/* マップ上に浮かせるボタン */}
+      {/* ホームに戻るボタン */}
       <button className="button-back" onClick={() => navigate('/')}>
         ホームに戻る
       </button>
