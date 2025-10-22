@@ -6,30 +6,38 @@ export default function ViewAR() {
   const navigate = useNavigate();
   const sceneRef = useRef();
   const [letters, setLetters] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const [selectedLetter, setSelectedLetter] = useState(null);
 
-  // DBから手紙取得
   useEffect(() => {
+    // --- 🔹 APIから手紙を取得 ---
     fetch("https://ar-backend-yt6b.onrender.com/letters")
-      .then((res) => res.json())
-      .then((data) => setLetters(data))
-      .catch((err) => console.error(err));
+      .then((res) => {
+        if (!res.ok) throw new Error("API接続に失敗しました");
+        return res.json();
+      })
+      .then((data) => {
+        console.log("取得した手紙データ:", data);
+        setLetters(data);
+      })
+      .catch((err) => console.error("エラー:", err));
   }, []);
 
-  // React描画後にクリックイベント登録
   useEffect(() => {
+    // --- 🔹 クリックイベントを各手紙に追加 ---
     letters.forEach((letter) => {
       const entity = document.getElementById(`letter-${letter.id}`);
       if (entity) {
         entity.addEventListener("click", () => {
           setSelectedLetter(letter);
+          setShowModal(true);
         });
       }
     });
   }, [letters]);
 
   return (
-    <div className="viewar-container">
+    <div>
       <a-scene
         ref={sceneRef}
         vr-mode-ui="enabled: false"
@@ -40,6 +48,7 @@ export default function ViewAR() {
           <a-cursor></a-cursor>
         </a-camera>
 
+        {/* --- 🔹 DBから取得した手紙をARに表示 --- */}
         {letters.map((letter) => (
           <a-entity
             key={letter.id}
@@ -51,12 +60,13 @@ export default function ViewAR() {
         ))}
       </a-scene>
 
-      {selectedLetter && (
-        <div className="modal-overlay" onClick={() => setSelectedLetter(null)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h2>手紙を発見！</h2>
+      {/* --- モーダル --- */}
+      {showModal && selectedLetter && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>{selectedLetter.title}</h2>
             <p>{selectedLetter.content}</p>
-            <button onClick={() => setSelectedLetter(null)}>閉じる</button>
+            <button onClick={() => setShowModal(false)}>閉じる</button>
           </div>
         </div>
       )}
@@ -67,6 +77,5 @@ export default function ViewAR() {
     </div>
   );
 }
-
 
 
