@@ -1,13 +1,16 @@
 /* ===== 全体レイアウト ===== */
-body {
+html, body, #root {
+  height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
-  height: 100vh;
+}
+
+body {
   background: linear-gradient(135deg, #f0f4f8, #d9e4ec);
   font-family: "Noto Sans JP", sans-serif;
   color: #333;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
