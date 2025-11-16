@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import View from './pages/View';
 import Post from './pages/Post';
 import ViewAR from './pages/ViewAR';
+import MapPlaceLetter from './pages/MapPlaceLetter';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/view" element={<View />} />
         <Route path="/post" element={<Post />} />
+        <Route path="/place-letter" element={<MapPlaceLetter />} />
         <Route path="/view-ar" element={<ViewAR />} />
       </Routes>
   );
