@@ -14,6 +14,7 @@ export default function Home() {
                 <button className="button" onClick={() => navigate('/login')}>ログイン</button>
                 <button className="button" onClick={() => navigate('/view')}>手紙を閲覧する</button>
                 <button className="button" onClick={() => navigate('/post')}>手紙を残す</button>
+                <button className="button" onClick={() => navigate('/place-letter')}>場所に残す</button>
                 <button className="button" onClick={() => navigate('/view-ar')}>ARで手紙を閲覧する</button>
             </div>
         </div>
