@@ -5,9 +5,15 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import "./MapPlaceLetter.css";
 
+// 🔹 ピンの先端が座標にくるようにアンカー設定
 const markerIcon = new L.Icon({
   iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
   shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+  iconSize: [25, 41],      // アイコンサイズ
+  iconAnchor: [12, 41],    // 先端が座標にくる
+  popupAnchor: [0, -41],   // ポップアップの位置調整
+  shadowSize: [41, 41],
+  shadowAnchor: [12, 41],
 });
 
 export default function MapPlaceLetter() {
@@ -15,7 +21,6 @@ export default function MapPlaceLetter() {
   const [position, setPosition] = useState(null);
   const [content, setContent] = useState("");
 
-  // --- マップをタップした時の処理 ---
   function MapClickHandler() {
     useMapEvents({
       click(e) {
@@ -68,14 +73,11 @@ export default function MapPlaceLetter() {
         center={[35.681236, 139.767125]}
         zoom={15}
         className="map-fullscreen"
-        touchAction="none"
         style={{ width: "100%", height: "100%" }}
-     >
-
-
+        touchAction="none"
+      >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <MapClickHandler />
-
         {position && <Marker position={position} icon={markerIcon} />}
       </MapContainer>
 
@@ -86,7 +88,6 @@ export default function MapPlaceLetter() {
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
-
         <button className="submit-btn" onClick={handleSubmit}>
           この場所に置く
         </button>
