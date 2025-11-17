@@ -27,11 +27,11 @@ export default function MapPlaceLetter() {
 
   const handleSubmit = async () => {
     if (!content.trim()) {
-      alert("手紙の内容を書いてくれ。");
+      alert("手紙の内容を書いてね。");
       return;
     }
     if (!position) {
-      alert("まずマップで場所を選んでくれ。");
+      alert("まずマップで場所を選んで。");
       return;
     }
 
@@ -49,7 +49,7 @@ export default function MapPlaceLetter() {
       });
       if (!res.ok) throw new Error("投稿に失敗した");
 
-      alert("手紙を置いたよ。風に乗せておいた。");
+      alert("手紙を置いたよ。");
       navigate("/");
     } catch (err) {
       console.error(err);
@@ -64,12 +64,14 @@ export default function MapPlaceLetter() {
       </button>
 
       {/* --- 全画面マップ --- */}
-        <MapContainer
+      <MapContainer
         center={[35.681236, 139.767125]}
         zoom={15}
         className="map-fullscreen"
-        style={{ width: "100%", height: "100%" }} // ← これが保険で最強
-        >
+        touchAction="none"
+        style={{ width: "100%", height: "100%" }}
+     >
+
 
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <MapClickHandler />
@@ -80,7 +82,7 @@ export default function MapPlaceLetter() {
       {/* --- 入力欄 --- */}
       <div className="letter-panel">
         <textarea
-          placeholder="ここに手紙を書くんだ。"
+          placeholder="ここに手紙を書いてね。"
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />

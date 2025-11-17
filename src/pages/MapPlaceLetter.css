@@ -1,61 +1,58 @@
-/* --- 全画面レイアウト --- */
+/* --- 全画面にマップを敷く土台 --- */
 .map-place-container {
-  position: relative;
+  position: fixed;
+  inset: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
+  background: #fff;
 }
 
-/* --- マップ全画面 --- */
+/* --- 地図そのもの --- */
 .map-fullscreen {
+  position: absolute;
+  inset: 0;
   width: 100% !important;
   height: 100% !important;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
 }
 
-/* --- 上の戻るボタン --- */
-.back-btn {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  padding: 0.6rem 1rem;
-  border-radius: 10px;
-  border: none;
-  background: rgba(0,0,0,0.7);
-  color: white;
-  z-index: 10;
+/* --- モバイルの誤タップズレ対策 --- */
+.leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+  touch-action: none;
 }
 
-/* --- 下の入力パネル --- */
+/* --- 手紙入力パネル --- */
 .letter-panel {
   position: absolute;
   bottom: 0;
-  width: 100%;
-  padding: 1rem;
-  background: rgba(255,255,255,0.9);
-  backdrop-filter: blur(6px);
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95%;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.25);
 }
 
 .letter-panel textarea {
   width: 100%;
   height: 80px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  padding: 0.5rem;
   resize: none;
+  border-radius: 8px;
+  padding: 8px;
 }
 
 .submit-btn {
-  padding: 0.8rem 1rem;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  background: linear-gradient(145deg, #e3eeff, #f3e7e9);
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* --- ホームへ戻るボタン --- */
+.back-btn {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 1000;
 }
