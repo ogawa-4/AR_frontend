@@ -8,6 +8,7 @@ import View from './pages/View';
 import Post from './pages/Post';
 import ViewAR from './pages/ViewAR';
 import MapPlaceLetter from './pages/MapPlaceLetter';
+import 'leaflet/dist/leaflet.css';
 
 function App() {
   return (
