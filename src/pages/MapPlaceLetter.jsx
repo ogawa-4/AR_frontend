@@ -64,11 +64,13 @@ export default function MapPlaceLetter() {
       </button>
 
       {/* --- 全画面マップ --- */}
-      <MapContainer
-        center={[35.681236, 139.767125]} // とりあえず東京駅
+        <MapContainer
+        center={[35.681236, 139.767125]}
         zoom={15}
         className="map-fullscreen"
-      >
+        style={{ width: "100%", height: "100%" }} // ← これが保険で最強
+        >
+
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <MapClickHandler />
 

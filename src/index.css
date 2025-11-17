@@ -1,54 +1,44 @@
+/* --- ブラウザ全体を占領できる土台 --- */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* スマホの変なスクロール防止 */
+}
+
+/* --- デフォルト文字設定 --- */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #b5afbe;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-html, body, #root {
-  height: 100%;
-}
-
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
+/* --- 通常の body 背景（マップページやAR以外）--- */
 body {
-  margin: 0;
-  padding: 0;
   background: linear-gradient(to bottom right, #f9f9f9, #e0ecff);
   font-family: "WDXL Lubrifont JP N", sans-serif;
   font-weight: 400;
   font-style: normal;
 
-  /* ← これ全部消す
-  display: flex;
-  justify-content: center;
-  align-items: start;
-  min-height: 100vh;
-  */
+  /* ⚠ display: flex; は絶対ダメ */
 }
 
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* --- aタグのデザイン --- */
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: none;
+}
+a:hover {
+  color: #535bf2;
 }
 
+/* --- ボタン基本 --- */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -57,26 +47,26 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
+  color: white;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
   border-color: #646cff;
 }
-button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* --- ライトモード向け調整 --- */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
   }
-  a:hover {
-    color: #747bff;
-  }
   button {
     background-color: #f9f9f9;
+    color: #333;
   }
 }
+
