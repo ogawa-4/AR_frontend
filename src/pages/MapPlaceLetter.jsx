@@ -5,13 +5,12 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import "./MapPlaceLetter.css";
 
-// 🔹 ピンの先端が座標にくるようにアンカー設定
 const markerIcon = new L.Icon({
   iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
   shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-  iconSize: [25, 41],      // アイコンサイズ
-  iconAnchor: [12, 41],    // 先端が座標にくる
-  popupAnchor: [0, -41],   // ポップアップの位置調整
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [0, -41],
   shadowSize: [41, 41],
   shadowAnchor: [12, 41],
 });
@@ -64,25 +63,25 @@ export default function MapPlaceLetter() {
 
   return (
     <div className="map-place-container">
+      {/* 戻るボタン */}
       <button className="back-btn" onClick={() => navigate("/")}>
         ホームへ
       </button>
 
-      {/* --- 全画面マップ --- */}
+      {/* マップ全画面 */}
       <MapContainer
         center={[35.681236, 139.767125]}
         zoom={15}
         className="map-fullscreen"
-        style={{ width: "100%", height: "100%" }}
-        touchAction="none"
+        style={{ width: "100%", height: "100%", zIndex: 1 }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <MapClickHandler />
         {position && <Marker position={position} icon={markerIcon} />}
       </MapContainer>
 
-      {/* --- 入力欄 --- */}
-      <div className="letter-panel">
+      {/* 入力パネル */}
+      <div className="letter-panel" style={{ zIndex: 10 }}>
         <textarea
           placeholder="ここに手紙を書いてね。"
           value={content}
